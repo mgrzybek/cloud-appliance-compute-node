@@ -1,0 +1,116 @@
+###############################################################################
+# OS-Ready
+#
+- name: Nodes configuration
+  hosts: localhost
+  tags: os-ready
+
+  roles:
+    - role: ansible-bootstrap-system
+    - role: ansible-consul
+    - role: ansible-dnsmasq
+    
+- name: Management services configuration
+  hosts: localhost
+  tags: node
+
+  tasks:
+    - name: Wait for Consul to be online
+      wait_for: port=8500 timeout=20
+
+    - name: Wait for consul quorum
+      ignore_errors: yes
+      retries: 300
+      delay: 10
+      register: catalog_info
+      command: consul catalog services
+
+    - name: Vault role
+      include_role: name=ansible-vault
+
+    - name: Nomad role
+      include_role: name=ansible-nomad
+
+    - name: Set HTTP proxy checks
+      when: proxy_consul is defined
+      with_items: "{{ proxy_consul }}"
+      template: src=service.consul.json.j2 dest=/etc/consul.d/{{ item.service.name }}.json
+
+###############################################################################
+# Compute drivers
+#
+- name: Containers runtime configuration
+  hosts: localhost
+  tags: drivers
+
+  pre_tasks:
+    # Java
+    - name: Java block
+      block:
+        - name: Java | Set facts (APT)
+          when: 
+          set_fact:
+            java_packages:
+              - openjdk-8-jre-headless
+              - openjdk-11-jre-headless
+
+        - name: Java | Set facts (RPM)
+          when: 
+          set_fact:
+            java_packages:
+              - java-1.8.0-openjdk-headless
+              - java-11-openjdk-headless
+
+        - name: Java | Installing Java Virtual Machines
+          package: name="{{ item }}" state=latest
+          with_items: "{{ java_packages }}"
+
+    # Containers
+    - when:
+        - lookup('env', 'CONTAINERS_VOLUME') is defined
+        - lookup('env', 'CONTAINERS_VOLUME') | length > 0
+      block:
+        - name: Containers | Installing XFS
+          package: name={{ item }} state=present
+          with_items:
+              - xfsprogs
+
+        - name: Containers | VG listing
+          command: vgs --options name
+          register: vg_list
+
+        - when: vg_list.stdout.find('containers') < 0
+          block:
+            - name: Containers | Detect cinder volume used for containers storage
+              set_fact: containers_device_short_id="{{ lookup('env', 'CONTAINERS_VOLUME')[:20] }}"
+
+            - name: Containers | Get containers device name from /dev/disk/by-id/
+              register: cinder_volume
+              shell: find /dev/disk/by-id/ -name "*{{ containers_device_short_id }}*"
+
+            - name: Containers | Check containers device result
+              when: cinder_volume.stdout_lines | length < 1
+              fail: msg="Cannot find any cinder device with ID {{ containers_device_short_id }}"
+
+            - name: Containers | Set full disk name (containers_device={{ cinder_volume.stdout }})
+              set_fact: containers_device="{{ cinder_volume.stdout }}"
+
+            - name: Containers | Create VG called "containers"
+              lvg: vg=containers pvs="{{ containers_device }}"
+
+        - name: Containers | Create LV containers/data
+          lvol: vg=containers lv=data size=80%VG
+
+        - name: Containers | Formatting containers-data LV
+          filesystem: dev=/dev/mapper/containers-data fstype=xfs
+
+        - name: Containers | Mounting containers-data LV
+          mount:
+            path: /var/lib/docker
+            src: /dev/mapper/containers-data
+            state: mounted
+            fstype: xfs
+
+  roles:
+    - role: ansible-docker
+
