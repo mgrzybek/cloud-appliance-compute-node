@@ -48,14 +48,14 @@
     - name: Java block
       block:
         - name: Java | Set facts (APT)
-          when: 
+          when: ansible_pkg_mgr == 'apt'
           set_fact:
             java_packages:
               - openjdk-8-jre-headless
               - openjdk-11-jre-headless
 
         - name: Java | Set facts (RPM)
-          when: 
+          when: ansible_pkg_mgr == 'rpm'
           set_fact:
             java_packages:
               - java-1.8.0-openjdk-headless
