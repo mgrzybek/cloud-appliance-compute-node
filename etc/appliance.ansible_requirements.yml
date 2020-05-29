@@ -29,3 +29,7 @@
 - name: ansible-telegraf
   src: git+https://forge.dgfip.finances.rie.gouv.fr/dgfip/cloud/ansible-roles/ansible-telegraf
   version: master
+
+- name: ansible-docker
+  src: git+https://forge.dgfip.finances.rie.gouv.fr/dgfip/cloud/ansible-roles/ansible-docker
+  version: master
