@@ -50,7 +50,7 @@ mkdir -p /etc/ansible/facts.d
 # Clone the bootstrap git repository
 export REPO_PATH=/root/appliance
 export ETC_PATH=$REPO_PATH/etc
-export PLAYBOOK=$REPO_PATH/management.appliance.playbook.yml
+export PLAYBOOK=$REPO_PATH/appliance.playbook.yml
 
 ## Set the Openstack credentials
 export OS_AUTH_URL="${os_auth_url}"
