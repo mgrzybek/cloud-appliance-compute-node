@@ -43,7 +43,18 @@
   hosts: localhost
   tags: drivers
 
-  pre_tasks:
+  handlers:
+  - name: reload consul
+    service:
+      name: consul
+      state: reloaded
+
+  - name: restart netdata
+    service:
+      name: netdata
+      state: restarted
+
+  tasks:
     # Java
     - name: Java block
       block:
@@ -111,6 +122,29 @@
             state: mounted
             fstype: xfs
 
-  roles:
-    - role: ansible-docker
+    - name: Docker role
+      include_role: name=ansible-docker
 
+    - name: Netdata
+      when: ansible_pkg_mgr | lower == 'apt'
+      block:
+      - name: Netdata | Install package
+        package:
+          name: netdata
+          state: present
+
+      - name: Netdata | Configure service
+        notify: restart netdata
+        lineinfile:
+          path: /etc/netdata/netdata.conf
+          regexp: ^(\s+)bind socket to IP =
+          line: \1bind socket to IP = {{ consul_bind }}
+
+      - name: Netdata | Configure consul service
+        notify: reload consul
+        copy:
+          content: '{{ item.content }}'
+          dest: /etc/consul.d/{{ item.name }}.json
+        with_items:
+        - name: netdata
+          content: '{{ netdata_consul_service[0] | to_nice_json }}'

@@ -44,6 +44,15 @@ resource "openstack_compute_instance_v2" "appliance" {
       git_repo_url = var.git_repo_url
 
       backoffice_ip_address = openstack_networking_port_v2.appliance-back-port.all_fixed_ips[0]
+      
+      #syslog_hostname   = var.syslog_hostname
+      #syslog_port       = var.syslog_port
+      #syslog_protocol   = var.syslog_protocol
+      #syslog_log_format = var.syslog_log_format
+
+      #logs_container = var.logs_container
+
+      traefik_consul_prefix = var.traefik_consul_prefix
     }
   )
 }

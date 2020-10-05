@@ -75,6 +75,9 @@ export CONSUL_BOOTSTRAP_EXPECT=1
 export CONSUL_ENCRYPT="${consul_encrypt}"
 export BACK_IP="${backoffice_ip_address}"
 
+# Traefik variables
+export TRAEFIK_CONSUL_PREFIX="${traefik_consul_prefix}"
+
 # NTP service
 export NTP_SERVER="${ntp_server}"
 
