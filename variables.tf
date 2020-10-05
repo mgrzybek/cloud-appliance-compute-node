@@ -194,3 +194,13 @@ variable "nomad_serf_port" {
   type        = number
   default     = 4648
 }
+
+##############################################################################
+# Management
+#
+
+variable "traefik_consul_prefix" {
+type        = string
+description = "Prefix used in services metadata to manage traefik's attributes"
+default     = "admin"
+}
