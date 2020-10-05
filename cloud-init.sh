@@ -67,6 +67,7 @@ export OS_IDENTITY_API_VERSION=3
 export VAULT_CONTAINER=vault
 
 # Set Consul variables
+export CONSUL_SERVER="${consul_server}"
 export CONSUL_DNS_DOMAIN="${consul_dns_domain}"
 export CONSUL_DNS_SERVER="${consul_dns_server}"
 export CONSUL_DATACENTER="${consul_datacenter}"

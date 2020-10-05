@@ -2,7 +2,7 @@
 # Cloud
 #
 
-variable "image_id" {
+variable "image_name" {
   type        = string
   description = "Operating system image to use"
 }
@@ -52,6 +52,7 @@ variable "git_repo_password" {
 variable "git_repo_url" {
   type        = string
   description = "cloud-appliance repo"
+  default = "https://github.com/mgrzybek/cloud-appliance-compute-node"
 }
 
 variable "git_repo_checkout" {
@@ -89,7 +90,7 @@ variable "static_hosts" {
   default     = ""
 }
 
-variable "flavor_id" {
+variable "flavor_name" {
   type        = string
   description = "Cloud flavor to use"
 }
@@ -97,6 +98,11 @@ variable "flavor_id" {
 ##############################################################################
 # Consul
 #
+
+variable "consul_server" {
+  type        = string
+  description = "Consul server IP address to join"
+}
 
 variable "consul_dns_domain" {
   type        = string
