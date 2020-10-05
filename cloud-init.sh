@@ -86,7 +86,7 @@ else
 	git clone -b ${git_repo_checkout} ${git_repo_url} $REPO_PATH || exit 1
 fi
 
-. $REPO_PATH/management.appliance.autoconf.sh
+. $REPO_PATH/appliance.autoconf.sh
 
 # Stop secure shell
 #systemctl stop ssh
