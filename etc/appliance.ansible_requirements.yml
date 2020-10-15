@@ -14,10 +14,6 @@
   src: git+https://forge.dgfip.finances.rie.gouv.fr/dgfip/cloud/ansible-roles/ansible-nomad
   version: master
 
-- name: ansible-vault
-  src: git+https://forge.dgfip.finances.rie.gouv.fr/dgfip/cloud/ansible-roles/ansible-vault
-  version: master
-
 - name: ansible-dnsmasq
   src: git+https://forge.dgfip.finances.rie.gouv.fr/dgfip/cloud/ansible-roles/ansible-dnsmasq
   version: master

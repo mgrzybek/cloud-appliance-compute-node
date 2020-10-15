@@ -25,9 +25,6 @@
       register: catalog_info
       command: consul catalog services
 
-    - name: Vault role
-      include_role: name=ansible-vault
-
     - name: Nomad role
       include_role: name=ansible-nomad
 
