@@ -1,5 +1,21 @@
 # cloud-appliance-compute-node
 
+`cloud-init`-based Hashicorp `nomad` compute node:
+
+* `nomad` agent
+* `consul` agent
+
+Available platorms:
+
+* `docker` service
+* `java` runtime
+* binary artifacts can also be deployed
+
+Monitoring is available using:
+
+* an embbed `netdata` service
+* a remote `influxdb` / `syslog` endpoint
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
