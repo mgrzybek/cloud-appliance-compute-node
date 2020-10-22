@@ -62,7 +62,7 @@ variable "git_repo_password" {
 variable "git_repo_url" {
   type        = string
   description = "cloud-appliance repo"
-  default = "https://github.com/mgrzybek/cloud-appliance-compute-node"
+  default     = "https://github.com/mgrzybek/cloud-appliance-compute-node"
 }
 
 variable "git_repo_checkout" {
@@ -215,7 +215,7 @@ variable "nomad_serf_port" {
 #
 
 variable "traefik_consul_prefix" {
-type        = string
-description = "Prefix used in services metadata to manage traefik's attributes"
-default     = "admin"
+  type        = string
+  description = "Prefix used in services metadata to manage traefik's attributes"
+  default     = "admin"
 }

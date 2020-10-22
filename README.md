@@ -19,7 +19,9 @@ Monitoring is available using:
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13 |
 
 ## Providers
 
@@ -43,15 +45,16 @@ No requirements.
 | consul\_http\_api\_port | The port used by clients to talk to the HTTP API | `number` | `8500` | no |
 | consul\_serf\_lan\_port | The port used to handle gossip in the LAN. Required by all agents. | `number` | `8301` | no |
 | consul\_serf\_wan\_port | The port used by servers to gossip over the WAN to other servers. | `number` | `8302` | no |
+| consul\_server | Consul server IP address to join | `string` | n/a | yes |
 | consul\_server\_rpc\_port | The port used by servers to handle incoming requests from other agents. | `number` | `8300` | no |
 | default\_secgroup\_id | Default security group to use | `string` | n/a | yes |
-| flavor\_id | Cloud flavor to use | `string` | n/a | yes |
+| flavor\_name | Cloud flavor to use | `string` | n/a | yes |
 | front\_net\_id | Network ID to use for the appliance | `string` | n/a | yes |
 | git\_repo\_checkout | branch/tag/commit to use | `string` | `"master"` | no |
 | git\_repo\_password | git password | `string` | `""` | no |
-| git\_repo\_url | cloud-appliance repo | `string` | n/a | yes |
+| git\_repo\_url | cloud-appliance repo | `string` | `"https://github.com/mgrzybek/cloud-appliance-compute-node"` | no |
 | git\_repo\_username | git username | `string` | `""` | no |
-| image\_id | Operating system image to use | `string` | n/a | yes |
+| image\_name | Operating system image to use | `string` | n/a | yes |
 | internet\_http\_no\_proxy | Proxy skiplist | `string` | `""` | no |
 | internet\_http\_proxy\_url | HTTP proxy | `string` | `""` | no |
 | nomad\_http\_port | The port to use for HTTP | `number` | `4646` | no |
@@ -63,6 +66,7 @@ No requirements.
 | os\_region\_name | Cloud region name | `string` | n/a | yes |
 | os\_username | Cloud username for some internal batches | `string` | n/a | yes |
 | static\_hosts | JSON array of host:ip tuples | `string` | `""` | no |
+| traefik\_consul\_prefix | Prefix used in services metadata to manage traefik's attributes | `string` | `"admin"` | no |
 
 ## Outputs
 

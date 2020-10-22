@@ -2,7 +2,7 @@
 # Instances
 #
 resource "openstack_compute_instance_v2" "appliance" {
-  name      = "compute"
+  name        = "compute"
   image_name  = var.image_name
   flavor_name = var.flavor_name
 
@@ -29,7 +29,7 @@ resource "openstack_compute_instance_v2" "appliance" {
 
       #logs_endpoint_url = var.logs_endpoint_url
 
-      consul_server    = var.consul_server
+      consul_server     = var.consul_server
       consul_dns_domain = var.consul_dns_domain
       consul_datacenter = var.consul_datacenter
       consul_encrypt    = var.consul_encrypt
@@ -44,7 +44,7 @@ resource "openstack_compute_instance_v2" "appliance" {
       git_repo_url = var.git_repo_url
 
       backoffice_ip_address = openstack_networking_port_v2.appliance-back-port.all_fixed_ips[0]
-      
+
       #syslog_hostname   = var.syslog_hostname
       #syslog_port       = var.syslog_port
       #syslog_protocol   = var.syslog_protocol
@@ -88,7 +88,7 @@ resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_secgroup_jobs_
 
 resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_http_inbound" {
   direction      = "ingress"
-  ethertype         = "IPv4"
+  ethertype      = "IPv4"
   port_range_min = var.nomad_http_port
   port_range_max = var.nomad_http_port
   protocol       = "tcp"
@@ -98,7 +98,7 @@ resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_http_inb
 
 resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_rpc_inbound" {
   direction      = "ingress"
-  ethertype         = "IPv4"
+  ethertype      = "IPv4"
   port_range_min = var.nomad_rpc_port
   port_range_max = var.nomad_rpc_port
   protocol       = "tcp"
@@ -108,7 +108,7 @@ resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_rpc_inbo
 
 resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_serf_tcp_inbound" {
   direction      = "ingress"
-  ethertype         = "IPv4"
+  ethertype      = "IPv4"
   port_range_min = var.nomad_serf_port
   port_range_max = var.nomad_serf_port
   protocol       = "tcp"
@@ -118,7 +118,7 @@ resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_serf_tcp
 
 resource "openstack_networking_secgroup_rule_v2" "appliance_nomad_allow_serf_udp_inbound" {
   direction      = "ingress"
-  ethertype         = "IPv4"
+  ethertype      = "IPv4"
   port_range_min = var.nomad_serf_port
   port_range_max = var.nomad_serf_port
   protocol       = "udp"
@@ -282,11 +282,11 @@ resource "openstack_networking_secgroup_rule_v2" "appliance_consul_allow_dns_udp
 
 # Netdata
 resource "openstack_networking_secgroup_rule_v2" "appliance-secgroup-netdata" {
-direction         = "ingress"
-ethertype         = "IPv4"
-protocol          = "tcp"
-port_range_min    = 19999
-port_range_max    = 19999
-remote_ip_prefix  = "0.0.0.0/0"
-security_group_id = openstack_networking_secgroup_v2.appliance-secgroup.id
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 19999
+  port_range_max    = 19999
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.appliance-secgroup.id
 }
