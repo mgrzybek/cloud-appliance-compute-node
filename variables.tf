@@ -10,11 +10,21 @@ variable "image_name" {
 variable "front_net_id" {
   type        = string
   description = "Network ID to use for the appliance"
+
+  validation {
+    condition     = can(regex("[[:alnum:]]{8}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{12}", var.front_net_id))
+    error_message = "This must be a valid netowrk ID."
+  }
 }
 
 variable "back_net_id" {
   type        = string
   description = "Backoffice network ID to use for the appliance"
+
+  validation {
+    condition     = can(regex("[[:alnum:]]{8}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{12}", var.back_net_id))
+    error_message = "This must be a valid netowrk ID."
+  }
 }
 
 variable "os_username" {
@@ -64,6 +74,11 @@ variable "git_repo_checkout" {
 variable "default_secgroup_id" {
   type        = string
   description = "Default security group to use"
+
+  validation {
+    condition     = can(regex("[[:alnum:]]{8}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{4}-[[:alnum:]]{12}", var.default_secgroup_id))
+    error_message = "This must be a valid secgroup ID."
+  }
 }
 
 variable "internet_http_proxy_url" {
